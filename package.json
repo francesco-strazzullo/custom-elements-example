@@ -1,0 +1,42 @@
+{
+  "name": "custom-element-example",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "pregh-pages": "npm run build",
+    "gh-pages": "gh-pages -d public -r https://${GITHUB_TOKEN}@github.com/francesco-strazzullo/custom-components-example.git",
+    "build": "webpack -p"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "1.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-plugin-transform-custom-element-classes": "0.1.0",
+    "babel-plugin-transform-object-rest-spread": "6.26.0",
+    "babel-preset-env": "1.6.0",
+    "css-loader": "0.28.9",
+    "file-loader": "0.11.2",
+    "gh-pages": "1.1.0",
+    "html-loader": "0.5.1",
+    "html-webpack-plugin": "2.30.1",
+    "standard": "10.0.3",
+    "style-loader": "0.20.2",
+    "url-loader": "0.5.9",
+    "webpack": "3.6.0",
+    "webpack-dev-server": "2.8.2"
+  },
+  "standard": {
+    "globals": [
+      "BASE_URL",
+      "describe",
+      "test",
+      "expect",
+      "HTMLElement"
+    ]
+  }
+}
