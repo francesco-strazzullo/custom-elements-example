@@ -1,5 +1,5 @@
 import template from './App.template.html'
-import htmlToDomElement from '../utils/htmlToDomElement'
+import htmlToDomElement from '../../utils/htmlToDomElement'
 
 class App extends HTMLElement {
   connectedCallback () {
