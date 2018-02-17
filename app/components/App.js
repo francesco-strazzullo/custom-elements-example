@@ -1,6 +1,9 @@
+import template from './App.template.html'
+import htmlToDomElement from '../utils/htmlToDomElement'
+
 class App extends HTMLElement {
   connectedCallback () {
-    this.innerHTML = '<h1 class="text-big text-gray">App</h1>'
+    this.appendChild(htmlToDomElement(template))
   }
 }
 
