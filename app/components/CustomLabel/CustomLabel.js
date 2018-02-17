@@ -1,3 +1,16 @@
+export const DISABLE_CHANGE_EVENT = 'disableChange'
+
+const onDisabledChange = customLabel => {
+  const event = new window.CustomEvent(DISABLE_CHANGE_EVENT, {
+    detail: {
+      disabled: customLabel.disabled,
+      timestamp: (new Date()).getTime()
+    }
+  })
+
+  customLabel.dispatchEvent(event)
+}
+
 class CustomLabel extends HTMLElement {
   static get observedAttributes () {
     return ['disabled']
@@ -30,6 +43,9 @@ class CustomLabel extends HTMLElement {
 
   attributeChangedCallback (name, oldValue, newValue) {
     this.render()
+    if (name === 'disabled') {
+      onDisabledChange(this)
+    }
   }
 }
 

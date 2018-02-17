@@ -1,27 +1,22 @@
 import template from './App.template.html'
 import htmlToDomElement from '../../utils/htmlToDomElement'
+import { DISABLE_CHANGE_EVENT } from '../CustomLabel/CustomLabel'
 
 class App extends HTMLElement {
   connectedCallback () {
     this.appendChild(htmlToDomElement(template))
 
+    const label = this.querySelector('custom-label')
+
     this
       .querySelector('button[role="toggle"]')
       .addEventListener('click', () => {
-        const firstLabel = document.getElementById('first')
-        const secondLabel = document.getElementById('second')
-        const thirdLabel = document.getElementById('third')
-
-        firstLabel.disabled = !firstLabel.disabled
-
-        if (secondLabel.hasAttribute('disabled')) {
-          secondLabel.removeAttribute('disabled')
-        } else {
-          secondLabel.setAttribute('disabled', '')
-        }
-
-        thirdLabel.toggle()
+        label.toggle()
       })
+
+    label.addEventListener(DISABLE_CHANGE_EVENT, (event) => {
+      console.log(event.detail)
+    })
   }
 }
 
