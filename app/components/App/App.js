@@ -1,22 +1,19 @@
 import template from './App.template.html'
 import htmlToDomElement from '../../utils/htmlToDomElement'
-import { DISABLE_CHANGE_EVENT } from '../CustomLabel/CustomLabel'
 
 class App extends HTMLElement {
   connectedCallback () {
     this.appendChild(htmlToDomElement(template))
 
     const label = this.querySelector('custom-label')
+    label.value = 0
+    this.interval = window.setInterval(() => {
+      label.value++
+    }, 1000)
+  }
 
-    this
-      .querySelector('button[role="toggle"]')
-      .addEventListener('click', () => {
-        label.toggle()
-      })
-
-    label.addEventListener(DISABLE_CHANGE_EVENT, (event) => {
-      console.log(event.detail)
-    })
+  disconnectedCallback () {
+    window.clearInterval(this.interval)
   }
 }
 
