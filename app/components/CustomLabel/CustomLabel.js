@@ -1,7 +1,15 @@
 class CustomLabel extends HTMLElement {
-  connectedCallback () {
+  static get observedAttributes () {
+    return ['disabled']
+  }
+
+  render () {
     const disabled = this.disabled ? 'Yes' : 'No'
     this.innerHTML = `<span class="text-gray">Am I disabled? ${disabled}</span>`
+  }
+
+  connectedCallback () {
+    this.render()
   }
 
   get disabled () {
@@ -18,6 +26,10 @@ class CustomLabel extends HTMLElement {
 
   toggle () {
     this.disabled = !this.disabled
+  }
+
+  attributeChangedCallback (name, oldValue, newValue) {
+    this.render()
   }
 }
 
