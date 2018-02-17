@@ -6,10 +6,13 @@ class App extends HTMLElement {
     this.appendChild(htmlToDomElement(template))
 
     const label = this.querySelector('custom-label')
-    label.value = 0
-    this.interval = window.setInterval(() => {
-      label.value++
-    }, 1000)
+
+    window.customElements.whenDefined('custom-label').then(() => {
+      label.value = 0
+      this.interval = window.setInterval(() => {
+        label.value++
+      }, 1000)
+    })
   }
 
   disconnectedCallback () {
