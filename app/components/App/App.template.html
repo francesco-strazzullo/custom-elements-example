@@ -1,7 +1,8 @@
 <main class="container">
     <h1 class="text-big text-gray">App</h1>
-    <button class="button block-mobile">Set to 1000</button>
+    <button class="button block-mobile">Set to 'Dummy' Value</button>
+    <input bind-attribute="value:counterChange" placeholder="add a value here..." />
     <div>
-        <custom-label bind-value="my-app.counterChange"></custom-label>
+        <custom-label bind-attribute="value:counterChange"></custom-label>
     </div>
 </main>

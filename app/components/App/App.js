@@ -1,41 +1,45 @@
 import template from './App.template.html'
 import htmlToDomElement from '../../utils/htmlToDomElement'
 
-const onCounterChange = app => {
-  const event = new window.CustomEvent('counterChange', {
-    detail: {
-      value: app.counter,
-      timestamp: (new Date()).getTime()
-    }
+const bindAttributeToEvents = app => {
+  const bindable = Array.from(app.querySelectorAll('[bind-attribute]'))
+  bindable.forEach(element => {
+    const [ attribute, eventName ] = element.getAttribute('bind-attribute').split(':')
+    app.addEventListener(eventName, event => {
+      element[attribute] = event.detail.value
+    })
   })
-
-  app.dispatchEvent(event)
 }
 
 class App extends HTMLElement {
   connectedCallback () {
     this.appendChild(htmlToDomElement(template))
 
-    window.customElements.whenDefined('custom-label').then(() => {
-      this.counter = 0
-      onCounterChange(this)
-      this.interval = window.setInterval(() => {
-        this.counter++
-        onCounterChange(this)
-      }, 1000)
-    })
+    bindAttributeToEvents(this)
+
+    this
+      .querySelector('input')
+      .addEventListener('input', event => {
+        this.onLabelChange(event.target.value)
+      })
 
     this
       .querySelector('button')
       .addEventListener('click', () => {
-        window.clearInterval(this.interval)
-        this.counter = 1000
-        onCounterChange(this)
+        this.onLabelChange('Dummy')
       })
   }
 
-  disconnectedCallback () {
-    window.clearInterval(this.interval)
+  onLabelChange (value) {
+    this.label = value
+    const event = new window.CustomEvent('counterChange', {
+      detail: {
+        value: value,
+        timestamp: (new Date()).getTime()
+      }
+    })
+
+    this.dispatchEvent(event)
   }
 }
 
