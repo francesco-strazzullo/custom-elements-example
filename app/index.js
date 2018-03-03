@@ -1,7 +1,11 @@
 import './extrategy-styleguide.css'
 import '@webcomponents/webcomponentsjs/webcomponents-lite'
 import App from './components/App/App'
-import CustomLabel from './components/CustomLabel/CustomLabel'
+import List from './components/List/List'
+import ListRow from './components/ListRow/ListRow'
+import Form from './components/Form/Form'
 
 window.customElements.define('my-app', App)
-window.customElements.define('custom-label', CustomLabel)
+window.customElements.define('app-form', Form)
+window.customElements.define('app-list', List)
+window.customElements.define('app-list-row', ListRow)

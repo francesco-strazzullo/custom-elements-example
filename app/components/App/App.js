@@ -1,45 +1,45 @@
 import template from './App.template.html'
 import htmlToDomElement from '../../utils/htmlToDomElement'
-
-const bindAttributeToEvents = app => {
-  const bindable = Array.from(app.querySelectorAll('[bind-attribute]'))
-  bindable.forEach(element => {
-    const [ attribute, eventName ] = element.getAttribute('bind-attribute').split(':')
-    app.addEventListener(eventName, event => {
-      element[attribute] = event.detail.value
-    })
-  })
-}
+import { EVENTS as FORM_EVENTS } from '../Form/Form'
+import { EVENTS as LIST_EVENTS } from '../List/List'
 
 class App extends HTMLElement {
+  constructor () {
+    super()
+    this.todos = []
+    this.form = undefined
+    this.list = undefined
+  }
+
   connectedCallback () {
     this.appendChild(htmlToDomElement(template))
 
-    bindAttributeToEvents(this)
+    this.form = this.querySelector('app-form')
+    this.list = this.querySelector('app-list')
 
-    this
-      .querySelector('input')
-      .addEventListener('input', event => {
-        this.onLabelChange(event.target.value)
-      })
-
-    this
-      .querySelector('button')
-      .addEventListener('click', () => {
-        this.onLabelChange('Dummy')
-      })
-  }
-
-  onLabelChange (value) {
-    this.label = value
-    const event = new window.CustomEvent('counterChange', {
-      detail: {
-        value: value,
-        timestamp: (new Date()).getTime()
-      }
+    this.form.addEventListener(FORM_EVENTS.ADD, event => {
+      this.addTodo(event.detail.value)
+      this.form.value = ''
+      this.form.focus()
     })
 
-    this.dispatchEvent(event)
+    this.list.addEventListener(LIST_EVENTS.DELETE, event => {
+      this.deleteTodo(event.detail.index)
+    })
+
+    window.customElements.whenDefined('app-list').then(() => {
+      this.list.todos = this.todos
+    })
+  }
+
+  deleteTodo (index) {
+    this.todos.splice(index, 1)
+    this.list.todos = this.todos
+  }
+
+  addTodo (text) {
+    this.todos.push({text})
+    this.list.todos = this.todos
   }
 }
 
