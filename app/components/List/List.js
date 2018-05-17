@@ -1,5 +1,11 @@
-import template from './List.template.html'
 import htmlToDomElement from '../../utils/htmlToDomElement'
+
+const TEMPLATE = `
+  <div>
+      <ul>
+      </ul>
+  </div>
+`
 
 const NO_ROW_TEMPLATE = '<div class="text-gray">Nothing to do</div>'
 
@@ -7,7 +13,7 @@ export const EVENTS = {
   DELETE: 'app/todo/delete'
 }
 
-class List extends HTMLElement {
+export default class List extends HTMLElement {
   constructor () {
     super()
     this.todoList = []
@@ -17,13 +23,27 @@ class List extends HTMLElement {
     this.render()
   }
 
-  get todos () {
-    return Object.freeze(this.todoList)
+  renderList () {
+    this.innerHTML = TEMPLATE
+
+    const ul = this.querySelector('ul')
+
+    this.todoList.forEach((todo, index) => {
+      const row = htmlToDomElement(`<app-list-row value="${todo.text}"></app-list-row>`)
+      ul.appendChild(row)
+      row
+        .querySelector('button')
+        .addEventListener('click', () => this.onDeleteClick(index))
+    })
   }
 
-  set todos (val) {
-    this.todoList = [...val]
-    this.render()
+  render () {
+    if (!this.todoList || !this.todoList.length) {
+      this.innerHTML = NO_ROW_TEMPLATE
+      return
+    }
+
+    this.renderList()
   }
 
   onDeleteClick (index) {
@@ -34,26 +54,12 @@ class List extends HTMLElement {
     }))
   }
 
-  renderList () {
-    this.appendChild(htmlToDomElement(template))
-    const list = this.querySelector('[role="list"]')
-    this.todoList.forEach((todo, index) => {
-      const row = htmlToDomElement(`<app-list-row value="${todo.text}"></app-list-row>`)
-      list.appendChild(row)
-
-      row.querySelector('button').addEventListener('click', () => this.onDeleteClick(index))
-    })
+  get todos () {
+    return Object.freeze(this.todoList)
   }
 
-  render () {
-    this.innerHTML = ''
-    if (this.todoList && this.todoList.length) {
-      this.renderList()
-      return
-    }
-
-    this.appendChild(htmlToDomElement(NO_ROW_TEMPLATE))
+  set todos (val) {
+    this.todoList = [...val]
+    this.render()
   }
 }
-
-export default List

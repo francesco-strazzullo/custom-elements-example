@@ -1,5 +1,4 @@
 import template from './ListRow.template.html'
-import htmlToDomElement from '../../utils/htmlToDomElement'
 
 class ListRow extends HTMLElement {
   connectedCallback () {
@@ -15,8 +14,7 @@ class ListRow extends HTMLElement {
   }
 
   render () {
-    this.innerHTML = ''
-    this.appendChild(htmlToDomElement(template))
+    this.innerHTML = template
     this.querySelector('[role="row-text"]').innerText = this.value
   }
 }

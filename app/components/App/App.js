@@ -1,18 +1,11 @@
 import template from './App.template.html'
-import htmlToDomElement from '../../utils/htmlToDomElement'
 import { EVENTS as FORM_EVENTS } from '../Form/Form'
 import { EVENTS as LIST_EVENTS } from '../List/List'
 import todos from '../../model/todos'
 
-class App extends HTMLElement {
-  constructor () {
-    super()
-    this.form = undefined
-    this.list = undefined
-  }
-
+export default class App extends HTMLElement {
   connectedCallback () {
-    this.appendChild(htmlToDomElement(template))
+    this.innerHTML = template
 
     this.form = this.querySelector('app-form')
     this.list = this.querySelector('app-list')
@@ -34,5 +27,3 @@ class App extends HTMLElement {
     })
   }
 }
-
-export default App
