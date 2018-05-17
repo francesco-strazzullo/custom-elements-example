@@ -36,7 +36,7 @@ class Form extends HTMLElement {
   add () {
     this.dispatchEvent(new window.CustomEvent(EVENTS.ADD, {
       detail: {
-        value: this.input.value
+        value: this.value
       }
     }))
   }

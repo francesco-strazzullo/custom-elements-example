@@ -1,0 +1,9 @@
+.button-delete {
+    float: right;
+}
+
+.text-container {
+    width: 100%;
+    line-height: 60px;
+    border-bottom: solid 1px black;
+}

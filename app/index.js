@@ -1,4 +1,5 @@
 import './extrategy-styleguide.css'
+import './style.css'
 import '@webcomponents/webcomponentsjs/webcomponents-lite'
 import App from './components/App/App'
 import List from './components/List/List'

@@ -38,7 +38,7 @@ class List extends HTMLElement {
     this.appendChild(htmlToDomElement(template))
     const list = this.querySelector('[role="list"]')
     this.todoList.forEach((todo, index) => {
-      const row = htmlToDomElement(`<app-list-row value=${todo.text}></app-list-row>`)
+      const row = htmlToDomElement(`<app-list-row value="${todo.text}"></app-list-row>`)
       list.appendChild(row)
 
       row.querySelector('button').addEventListener('click', () => this.onDeleteClick(index))
