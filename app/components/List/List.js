@@ -14,12 +14,11 @@ export const EVENTS = {
 }
 
 export default class List extends HTMLElement {
-  constructor () {
-    super()
-    this.todoList = []
+  static get observedAttributes () {
+    return ['todos']
   }
 
-  connectedCallback () {
+  attributeChangedCallback () {
     this.render()
   }
 
@@ -28,7 +27,7 @@ export default class List extends HTMLElement {
 
     const ul = this.querySelector('ul')
 
-    this.todoList.forEach((todo, index) => {
+    this.todos.forEach((todo, index) => {
       const row = htmlToDomElement(`<app-list-row value="${todo.text}"></app-list-row>`)
       ul.appendChild(row)
       row
@@ -38,7 +37,7 @@ export default class List extends HTMLElement {
   }
 
   render () {
-    if (!this.todoList || !this.todoList.length) {
+    if (!this.todos.length) {
       this.innerHTML = NO_ROW_TEMPLATE
       return
     }
@@ -55,11 +54,14 @@ export default class List extends HTMLElement {
   }
 
   get todos () {
-    return Object.freeze(this.todoList)
+    if (!this.hasAttribute('todos')) {
+      return []
+    }
+
+    return JSON.parse(this.getAttribute('todos'))
   }
 
   set todos (val) {
-    this.todoList = [...val]
-    this.render()
+    this.setAttribute('todos', JSON.stringify(val))
   }
 }
