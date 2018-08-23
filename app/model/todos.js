@@ -18,7 +18,7 @@ export const todosFactory = (initialTodos = []) => {
   }
 
   const add = text => {
-    todos.push({text})
+    todos.push(text)
     notify()
   }
 

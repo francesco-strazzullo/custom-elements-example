@@ -17,7 +17,7 @@ test('listeners should be invoked when adding data', () => {
   })
 
   todos.add('Buy Milk')
-  expect(result).toEqual([{text: 'Buy Milk'}])
+  expect(result).toEqual(['Buy Milk'])
 })
 
 test('listeners should be invoked when removing data', () => {

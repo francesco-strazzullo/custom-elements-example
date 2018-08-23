@@ -27,12 +27,14 @@ export default class List extends HTMLElement {
 
     const ul = this.querySelector('ul')
 
-    this.todos.forEach((todo, index) => {
-      const row = htmlToDomElement(`<app-list-row value="${todo.text}"></app-list-row>`)
-      ul.appendChild(row)
-      row
-        .querySelector('button')
-        .addEventListener('click', () => this.onDeleteClick(index))
+    window.customElements.whenDefined('app-list-row').then(() => {
+      this.todos.forEach((todo, index) => {
+        const row = htmlToDomElement(`<app-list-row value="${todo}"></app-list-row>`)
+        ul.appendChild(row)
+        row
+          .querySelector('button')
+          .addEventListener('click', () => this.onDeleteClick(index))
+      })
     })
   }
 
@@ -54,14 +56,15 @@ export default class List extends HTMLElement {
   }
 
   get todos () {
-    if (!this.hasAttribute('todos')) {
+    if (!this.getAttribute('todos')) {
       return []
     }
 
-    return JSON.parse(this.getAttribute('todos'))
+    return this.getAttribute('todos').split(',')
   }
 
   set todos (val) {
-    this.setAttribute('todos', JSON.stringify(val))
+    const todos = Array.from(val || [])
+    this.setAttribute('todos', todos.join(','))
   }
 }
